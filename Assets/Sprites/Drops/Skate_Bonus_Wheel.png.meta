@@ -130,7 +130,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Skate_Bonus_Wheel_0: -5954001334847314375
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
