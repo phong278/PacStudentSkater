@@ -8,6 +8,7 @@ TagManager:
   - PowerPellet
   - Gate
   - Wall
+  - Teleporter
   layers:
   - Default
   - TransparentFX

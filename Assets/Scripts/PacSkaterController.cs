@@ -13,6 +13,7 @@ public class PacSkaterController : MonoBehaviour
     public Animator animator;
     public AudioSource moveAudio;
     public ParticleSystem dustParticles;
+    public AudioSource deathAudio;
 
     [Header("Collision Feedback")]
     public AudioSource wallBumpEffect;
@@ -157,8 +158,71 @@ public class PacSkaterController : MonoBehaviour
         return true;
     }
 
+    private bool canTeleport = true; // cooldown flag
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (!canTeleport) return; // ignore if teleport on cooldown
+
+        if (other.CompareTag("Teleporter"))
+        {
+            Debug.Log("Triggered teleporter: " + other.name);
+
+            // stop current lerp movement
+            isMoving = false;
+
+            Vector3 newPos = transform.position;
+
+            if (other.name == "TeleporterLeft")
+                newPos = new Vector3(21.52f, transform.position.y, transform.position.z);
+            else if (other.name == "TeleporterRight")
+                newPos = new Vector3(-8.65f, transform.position.y, transform.position.z);
+
+            transform.position = newPos;
+            targetPos = newPos; // prevent snap back
+
+            // start cooldown so it doesn't trigger both sides
+            StartCoroutine(TeleportCooldown());
+        }
+    }
+
+    private IEnumerator TeleportCooldown()
+    {
+        canTeleport = false;
+        yield return new WaitForSeconds(0.5f); // half second buffer
+        canTeleport = true;
+    }
+
+    public void ResetMovement()
+    {
+        isMoving = false;
+        inputDir = Vector2.zero;
+        currentDir = Vector2.right;  // or whatever default direction you want
+        targetPos = transform.position;
+        startPos = transform.position;
+        lerpTime = 0f;
+        isTouchingWall = false;
+
+        // stop audio and particles just in case
+        if (moveAudio && moveAudio.isPlaying) moveAudio.Stop();
+        if (dustParticles && dustParticles.isPlaying) dustParticles.Stop();
+
+        if (animator)
+        {
+            animator.SetFloat("MoveX", 0);
+            animator.SetFloat("MoveY", 0);
+        }
+    }
 
 }
+
+
+
+
+
+
+
+
 
 
 

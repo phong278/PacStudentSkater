@@ -16,9 +16,12 @@ public class PowerPellet : MonoBehaviour
             GameManager.instance.AddScore(scoreValue);
             Debug.Log("Power pellet collected! Score should go up.");
 
-            // TODO: trigger frightened mode for cops later
+            // Trigger frightened (scared) mode for ghosts
+            GameManager.instance.ActivatePowerPellet();
+
             Destroy(gameObject);
         }
     }
+
 }
 
