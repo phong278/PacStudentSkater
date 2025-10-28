@@ -32,7 +32,7 @@ public class SkaterAutoMove : MonoBehaviour
         Vector3 direction = (targetPos - transform.position).normalized;
 
         // Move skater
-        transform.position = Vector3.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);
+        transform.position += direction * speed * Time.deltaTime;
 
         //Send direction info to Animator
         animator.SetFloat("MoveX", direction.x);
