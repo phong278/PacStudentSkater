@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PowerPellet : MonoBehaviour
 {
-    public int scoreValue = 50;  // how much this power pellet is worth
+    public int scoreValue = 50;  //How much this power pellet is worth
 
     void OnTriggerEnter2D(Collider2D other)
     {
